@@ -45,7 +45,7 @@ jobs:
       - run:
           name: Execute cloudfront.yml
           command: |
-            aws cloudformation deploy \
+            aws cloudformation deploy --region us-east-1 \
             --template-file cloudfront.yml \
             --stack-name production-distro \
             --parameter-overrides PipelineID="mybucket-${CIRCLE_WORKFLOW_ID:0:7}"
@@ -59,7 +59,7 @@ jobs:
       - run:
           name: Fetch and save the old pipeline ID (bucket name) responsible for the last release.
           command: |
-            aws cloudformation \
+            aws cloudformation --region us-east-1 \
             list-exports --query "Exports[?Name==\`PipelineID\`].Value" \
             --no-paginate --output text > ~/textfile.txt
       - persist_to_workspace:
